@@ -12,6 +12,7 @@ class App extends React.Component {
       cardRare: '',
       cardTrunfo: '',
       isSaveButtonDisabled: true,
+      cardSave: [],
     };
 
       onInputChange = ({ target }) => {
@@ -19,11 +20,11 @@ class App extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         this.setState({
           [name]: value }, () => {
-          this.formValidate();
+          this.previewForm();
         });
       };
 
-  formValidate = () => {
+  previewForm = () => {
     const {
       cardName,
       cardDescription,
@@ -52,6 +53,49 @@ class App extends React.Component {
     });
   }
 
+  onSaveButtonClick = (event) => {
+    event.preventDefault();
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      hasTrunfo,
+      isSaveButtonDisabled,
+      cardSave,
+    } = this.state;
+
+    this.setState({
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      hasTrunfo,
+      isSaveButtonDisabled,
+      cardSave,
+    });
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      // hasTrunfo
+      isSaveButtonDisabled: true,
+    });
+  };
+
   render() {
     const { cardName,
       cardDescription,
@@ -63,7 +107,7 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
-      onSaveButtonClick } = this.state;
+    } = this.state;
 
     return (
       <div>
@@ -79,7 +123,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           hasTrunfo={ hasTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
-          onSaveButtonClick={ onSaveButtonClick }
+          onSaveButtonClick={ this.onSaveButtonClick }
           onInputChange={ this.onInputChange }
         />
         <Card

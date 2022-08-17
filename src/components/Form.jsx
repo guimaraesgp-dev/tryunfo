@@ -105,7 +105,7 @@ class Form extends Component {
             />
           </label>
           <button
-            type="button"
+            type="reset"
             id="btnSave"
             name="btnSave"
             data-testid="save-button"
