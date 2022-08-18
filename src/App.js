@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Filter from './components/Filter';
 
 class App extends React.Component {
     state ={ cardName: '',
@@ -14,7 +15,15 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       cardSave: [],
+      filterName: '',
+      filterRarity: 'todas',
     };
+
+    deletCard = ({ target }) => {
+      const { cardSave } = this.state;
+      const newCardSave = cardSave.filter((card) => card.cardName !== target.name);
+      this.setState({ cardSave: newCardSave }, this.hasTrunfo);
+    }
 
       onInputChange = ({ target }) => {
         const { name } = target;
@@ -54,8 +63,7 @@ class App extends React.Component {
     });
   }
 
-  onSaveButtonClick = (event) => {
-    event.preventDefault();
+  onSaveButtonClick = () => {
     const {
       cardName,
       cardDescription,
@@ -68,17 +76,18 @@ class App extends React.Component {
       cardSave,
     } = this.state;
 
+    const card = {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
+    cardSave.push(card);
     this.setState({
-      cardSave: [...cardSave, {
-        name: cardName,
-        description: cardDescription,
-        image: cardImage,
-        rare: cardRare,
-        att1: cardAttr1,
-        att2: cardAttr2,
-        att3: cardAttr3,
-        trunfo: cardTrunfo,
-      }],
       cardName: '',
       cardDescription: '',
       cardAttr1: '0',
@@ -110,6 +119,8 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       cardSave,
+      filterName,
+      filterRarity,
     } = this.state;
 
     return (
@@ -139,21 +150,39 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-        { cardSave.map((card) => (
-          <Card
-            key={ card.name }
-            cardName={ card.name }
-            cardDescription={ card.description }
-            cardAttr1={ card.att1 }
-            cardAttr2={ card.att2 }
-            cardAttr3={ card.att3 }
-            cardImage={ card.image }
-            cardRare={ card.rare }
-            cardTrunfo={ card.trunfo }
-          />))}
+        <Filter
+          filterName={ filterName }
+          onInputChange={ this.onInputChange }
+        />
+        {cardSave
+          .filter((card) => (filterRarity === 'todas' ? card.cardRare
+            : card.cardRare === filterRarity))
+          .filter((card) => card.cardName.includes(filterName))
+          .map((card) => (
+            <div key={ card.cardName }>
+              <Card
+                cardName={ card.cardName }
+                cardDescription={ card.cardDescription }
+                cardAttr1={ card.cardAttr1 }
+                cardAttr2={ card.cardAttr2 }
+                cardAttr3={ card.cardAttr3 }
+                cardImage={ card.cardImage }
+                cardRare={ card.cardRare }
+                cardTrunfo={ card.cardTrunfo }
+              />
+              <button
+                name={ card.cardName }
+                type="button"
+                data-testid="delete-button"
+                onClick={ this.onDeleteButtonClick }
+              >
+                Excluir
+              </button>
+            </div>
+          ))}
       </div>
+
     );
   }
 }
-
 export default App;
