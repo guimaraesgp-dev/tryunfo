@@ -100,6 +100,7 @@ class Form extends Component {
               <input
                 data-testid="trunfo-input"
                 type="checkbox"
+                id="trunfo-input"
                 value={ cardTrunfo }
                 onChange={ onInputChange }
                 checked={ cardTrunfo }
