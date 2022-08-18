@@ -174,7 +174,7 @@ class App extends React.Component {
                 name={ card.cardName }
                 type="button"
                 data-testid="delete-button"
-                onClick={ this.onDeleteButtonClick }
+                onClick={ this.deletCard }
               >
                 Excluir
               </button>
