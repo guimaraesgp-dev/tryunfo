@@ -65,25 +65,20 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
-      hasTrunfo,
-      isSaveButtonDisabled,
       cardSave,
     } = this.state;
 
     this.setState({
-      cardName,
-      cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardImage,
-      cardRare,
-      cardTrunfo,
-      hasTrunfo,
-      isSaveButtonDisabled,
-      cardSave,
-    });
-    this.setState({
+      cardSave: [...cardSave, {
+        name: cardName,
+        description: cardDescription,
+        image: cardImage,
+        rare: cardRare,
+        att1: cardAttr1,
+        att2: cardAttr2,
+        att3: cardAttr3,
+        trunfo: cardTrunfo,
+      }],
       cardName: '',
       cardDescription: '',
       cardAttr1: '0',
@@ -114,6 +109,7 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
+      cardSave,
     } = this.state;
 
     return (
@@ -143,6 +139,18 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+        { cardSave.map((card) => (
+          <Card
+            key={ card.name }
+            cardName={ card.name }
+            cardDescription={ card.description }
+            cardAttr1={ card.att1 }
+            cardAttr2={ card.att2 }
+            cardAttr3={ card.att3 }
+            cardImage={ card.image }
+            cardRare={ card.rare }
+            cardTrunfo={ card.trunfo }
+          />))}
       </div>
     );
   }
